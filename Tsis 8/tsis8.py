@@ -6,7 +6,8 @@ FPS = pygame.time.Clock()
 screen = pygame.display.set_mode((600, 800))
 Speed = 5
 pygame.display.set_caption("CarsGame")
-
+money = 0
+pygame.font.init()
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -30,7 +31,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.image.load("Enemy.png")
         self.surf = pygame.Surface((50, 80))
         self.rect = self.surf.get_rect(center=(random.randint(40, 530), 100))
-        self.speed = 5
+        self.speed = random.randint(1, 5)
     def move(self):
         Speed = self.speed
         self.rect.top += Speed
@@ -38,13 +39,31 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.top = 0
             self.rect.center = (random.randint(40, 530), 0)
 
+
+class Coin(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("coin.png")
+        self.surf = pygame.Surface((50, 80))
+        self.rect = self.surf.get_rect(center=(random.randint(40, 530), 100))
+        self.speed = random.randint(1,5)
+    def move(self):
+        Speed = self.speed
+        self.rect.top += Speed
+        if self.rect.top >= 800:
+            self.rect.top = 0
+            self.rect.center = (random.randint(40, 530), 0)
 player = Player()
 enemy = Enemy()
 enemies = pygame.sprite.Group()
 enemies.add(enemy)
+coin = Coin()
+coins = pygame.sprite.Group()
+coins.add(coin)
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
-all_sprites.add(player)
+all_sprites.add(enemy)
+all_sprites.add(coin)
 
 don = False
 while not don:
@@ -63,9 +82,7 @@ while not don:
     for entity in all_sprites:
         screen.blit(entity.image, entity.rect)
         entity.move()
-    for entity in enemies:
-        screen.blit(entity.image, entity.rect)
-        entity.move()
+
 
         # To be run if collision occurs between Player and Enemy
     if pygame.sprite.spritecollideany(player, enemies):
@@ -75,6 +92,13 @@ while not don:
             entity.kill()
         time.sleep(2)
         pygame.quit()
+
+    if pygame.sprite.spritecollideany(player, coins):
+        money += 1
+        pygame.display.update()
+        font = pygame.font.SysFont('microsofttaile', 12)
+        txt = font.render(str(money), True, (255,255,255), (0,0,0))
+        screen.blit(txt, (20, 20))
 
     pygame.display.update()
     FPS.tick(60)
