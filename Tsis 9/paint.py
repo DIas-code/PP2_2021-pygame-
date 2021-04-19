@@ -99,23 +99,23 @@ while not done:
                 Erase = True
                 Line = False
             if event.key == pygame.K_UP:
-                RadiusOfLineAndErase += 1
-            if event.key == pygame.K_DOWN and RadiusOfLineAndErase>1:
-                RadiusOfLineAndErase -= 1       
+                RadiusOfLineAndErase += 2
+            if event.key == pygame.K_DOWN and RadiusOfLineAndErase>2:
+                RadiusOfLineAndErase -= 2       
             if event.key == pygame.K_w:
-                RadiusOfCircle += 1
-                WidthOfRec += 1
-            if event.key == pygame.K_s and RadiusOfCircle>1:
-                RadiusOfCircle -= 1
-                WidthOfRec -=1
+                RadiusOfCircle += 2
+                WidthOfRec += 2
+            if event.key == pygame.K_s and RadiusOfCircle>2:
+                RadiusOfCircle -= 2
+                WidthOfRec -=2
             if event.key == pygame.K_p:
-                HeihtOfRec += 1
-            if event.key == pygame.K_m and HeihtOfRec>1:
-                HeihtOfRec -= 1
+                HeihtOfRec += 2
+            if event.key == pygame.K_m and HeihtOfRec>2:
+                HeihtOfRec -= 2
             if event.key == pygame.K_d:
-                density += 1
-            if event.key == pygame.K_c and density>1:
-                density -= 1
+                density += 2
+            if event.key == pygame.K_c and density>2:
+                density -= 2
         if event.type == pygame.MOUSEBUTTONUP:
             curpos= pygame.mouse.get_pos()
             painting = False
@@ -131,7 +131,7 @@ while not done:
             if painting:
                 drawLine(screen, color,lastPos,event.pos,RadiusOfLineAndErase)
             lastPos=event.pos
-        if event.type == pygame.MOUSEMOTION and Rect == True:
+        if event.type == pygame.MOUSEBUTTONDOWN and Rect == True:
             if mode == 'White':
                 color = (255,255,255)
             elif mode == 'randomColor':
@@ -145,7 +145,7 @@ while not done:
             if painting:
                 drawLine(screen, black,lastPos,event.pos,RadiusOfLineAndErase)
             lastPos=event.pos
-        if event.type == pygame.MOUSEMOTION and Circle == True:
+        if event.type == pygame.MOUSEBUTTONDOWN and Circle == True:
             if mode == 'White':
                 color = (255,255,255)
             elif mode == 'randomColor':
