@@ -1,174 +1,104 @@
+# Paint
+import pygame, random
 
-import pygame 
-import time
-import random
-import pickle
+# (x1, y1), (x2, y2)
+# A = y2 - y1
+# B = x1 - x2
+# C = x2 * y1 - x1 * y2
+# Ax + By + C = 0
+# (x - x1) / (x2 - x1) = (y - y1) / (y2 - y1)
 
-pygame.init()
+def drawLine(screen, start, end, width, color):
+    x1 = start[0]
+    y1 = start[1]
+    x2 = end[0]
+    y2 = end[1]
 
-WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
-BLACK = (0, 0, 0)
-YELLOW = (255,255,102)
-GREEN = (0,255,0)
+    dx = abs(x1 - x2)
+    dy = abs(y1 - y2)
 
-WIDTH = 800
-HEIGHT = 600
+    A = y2 - y1
+    B = x1 - x2
+    C = x2 * y1 - x1 * y2
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Snake game")
+    if dx > dy:
+        if x1 > x2:
+            x1, x2 = x2, x1
+            y1, y2 = y2, y1
 
-snake_block_size = 10
-snake_speed = 20
+        for x in range(x1, x2):
+            y = (-C - A * x) / B
+            pygame.draw.circle(screen, color, (x, y), width)
+    else:
+        if y1 > y2:
+            x1, x2 = x2, x1
+            y1, y2 = y2, y1
+        for y in range(y1, y2):
+            x = (-C - B * y) / A
+            pygame.draw.circle(screen, color, (x, y), width)
 
-clock = pygame.time.Clock()
+def main():
+    screen = pygame.display.set_mode((800, 600))
+    mode = 'random'
+    draw_on = False
+    last_pos = (0, 0)
+    color = (255, 128, 0)
+    radius = 10
 
-font_style = pygame.font.SysFont("papyrusttc", 50)
-score_font = pygame.font.SysFont("ヒラキノ角コシックw0ttc", 35)
-
-FILE_NAME = 'snakes_saved.data'
-class Snake:
-    def __init__(self, block_size, color, coordinates,
-        keys = {'UP': K_UP, 'RIGHT':K_RIGHT,
-        'DOWN': K_DOWN, 'LEFT': K_LEFT}):
-        self.block_size = block_size
-        self.speed = block_size
-        self.color = color
-        self.keys = keys
-        self.elements = [coordinates]
-        self.dx = 0
-        self.dy = 0
-        self.ate_food = False
-    
-    def move(self, pressed_keys):
-        if pressed_keys[self.keys['UP']]:
-            self.dx = 0
-            self.dy = -1
-        elif pressed_keys[self.keys['DOWN']]:
-            self.dx = 0
-            self.dy = 1
-        elif pressed_keys[self.keys['RIGHT']]:
-            self.dx = 1
-            self.dy = 0
-        elif pressed_keys[self.keys['LEFT']]:
-            self.dx = -1
-            self.dy = 0
-        
-        old_head = self.elements[0]
-        head = [old_head[0] + self.dx * self.speed, old_head[1] + self.dy * self.speed]
-
-        if self.ate_food:
-            self.elements = [head] + self.elements
-        else:
-            self.elements = [head] + self.elements[:-1]
-        self.ate_food = False
-    
-    def draw(self, screen):
-        for item in self.elements:
-            pygame.draw.rect(screen, self.color, [*item, self.block_size, self.block_size])
-
-    def get_head_coordinates(self):
-        return self.elements[0]
-    
-    def get_length(self):
-        return len(self.elements)
-
-    def add_block(self):
-        self.ate_food = True
-    
-    def is_collide(self, walls):
-        pass
-    
-    def is_ate_food(self, food):
-        pass
-def message(font, msg, color, x, y):
-    mesg = font.render(msg, True, color)
-    screen.blit(mesg, (x, y))
-
-def game_loop():
-    game_over = False
-    game_close = False
-    choose = False
-
-    snake1 = Snake(snake_block_size, BLACK, [WIDTH // 2, HEIGHT // 2])
-    keys = {
-        'UP': pygame.K_UP,
-        'DOWN': pygame.K_DOWN,
-        'RIGHT': pygame.K_RIGHT,
-        'LEFT': pygame.K_LEFT
+    colors = {
+        'red': (255, 0, 0),
+        'blue': (0, 0, 255),
+        'green': (0, 255, 0)
     }
-    snake2 = Snake(snake_block_size, WHITE, [WIDTH // 2 + 50, HEIGHT // 2], keys=keys)
 
-    while not choose:
-        screen.fill(BLUE)
-        message(font_style, "Press space to load saved game, or other button to start a new one", RED, WIDTH // 2, HEIGHT // 2)
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    try:
-                        with open(FILE_NAME, 'br') as f:
-                            snakes = pickle.load(f)
-                    except Exception as e:
-                        print(e)
-                        snakes = (snake1, snake2)
-                else:
-                    snakes = (snake1, snake2)
-                choose = True
-    
-    foodx = round(random.randrange(0, WIDTH - snake_block_size) / 10.0) * 10.0
-    foody = round(random.randrange(0, HEIGHT - snake_block_size) / 10.0) * 10.0
-    
-    while not game_close:
-        clock.tick(snake_speed)
-
-        while game_over:
-            screen.fill(BLUE)
-            message(font_style, "Game over!", RED, WIDTH // 2, HEIGHT // 2)
-            pygame.display.update()
-
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q:
-                        game_over = False
-                        game_close = True
-                    if event.key == pygame.K_c:
-                        game_loop()
+    while True:
+        pressed = pygame.key.get_pressed()
+        alt_held = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
+        ctrl_held = pressed[pygame.K_LCTRL] or pressed[pygame.K_RCTRL]
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                game_close = True
+                return
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    with open(FILE_NAME, 'bw') as f:
-                        pickle.dump(snakes, f)
-                    game_close = True
+                if event.key == pygame.K_w and ctrl_held:
+                    return
+                if event.key == pygame.K_F4 and alt_held:
+                    return
+                if event.key == pygame.K_r:
+                    mode = 'red'
+                if event.key == pygame.K_b:
+                    mode = 'blue'
+                if event.key == pygame.K_g:
+                    mode = 'green'
+                if event.key == pygame.K_UP:
+                    radius += 1
+                if event.key == pygame.K_DOWN:
+                    radius -= 1
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if mode == 'random':
+                    color = (random.randrange(256), random.randrange(256), random.randrange(256))
+                else:
+                    color = colors[mode]
+                pygame.draw.circle(screen, color, event.pos, radius)
+                draw_on = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                draw_on = False
+            if event.type == pygame.MOUSEMOTION:
+                if draw_on:
+                    drawLine(screen, last_pos, event.pos, radius, color)
+                    # pygame.draw.circle(screen, color, event.pos, radius)
+                last_pos = event.pos
+        pygame.display.flip()
 
-        for snake in snakes:
-            x1, y1 = snake.get_head_coordinates()
-            if x1 >= WIDTH or x1 < 0 or y1 >= HEIGHT or y1 < 0:
-                game_over = True
-            if x1 == foodx and y1 == foody:
-                foodx = round(random.randrange(0, WIDTH - snake_block_size) / 10.0) * 10.0
-                foody = round(random.randrange(0, HEIGHT - snake_block_size) / 10.0) * 10.0
-                snake.add_block()
-
-        pressed_keys = pygame.key.get_pressed()
-        for snake in snakes:
-            snake.move(pressed_keys)
-
-        screen.fill(BLUE)
-        pygame.draw.rect(screen, GREEN, [foodx, foody, snake_block_size, snake_block_size]) 
-        for snake in snakes:
-            snake.draw(screen)
-
-        message(score_font, "Your score: " + str(snake1.get_length() - 1), YELLOW, 0, 0)
-   
-        pygame.display.update()
-            
     pygame.quit()
-    quit()
 
-if __name__ == '__main__':
-    game_loop()
+main()
+
+# rect = pygame.Rect(10, 20, 30, 50)
+# print(rect.bottom)
+# print(rect.top)
+# print(rect.left)
+# print(rect.right)
+# print(rect.bottomleft)
+print(rect.bottomright)
+print(rect.center)

@@ -61,6 +61,7 @@ class Snake():
     def death(self):
         x = self.elements[0][0]
         y = self.elements[0][1]
+        snake1pos=(x,y)
         if x < 19 or x > 679 or y < 19 or y > 679:
             font = pygame.font.SysFont('microsofttaile', 72)
             txt = font.render("Snake 2 win", True, (0, 0, 0), (255, 255, 255))
@@ -78,22 +79,33 @@ class Snake():
                 pygame.display.update()
                 time.sleep(2)
                 exit()
-        if lev1 == True and ((x, y)==(141,141) or (x, y)==(141,541) or (x, y)==(541,141) or (x, y)==(541,141)):
-            font = pygame.font.SysFont('microsofttaile', 72)
-            txt = font.render("Snake 1 win", True, (0, 0, 0), (255, 255, 255))
-            screen.fill((255,255,255))
-            screen.blit(txt, (160, 275))
-            pygame.display.update()
-            time.sleep(2) 
-            exit()
-        if lev2 == True and ((x, y)==(241,241) or (x, y)==(241,441) or (x, y)==(441,241) or (x, y)==(441,241)):
-            font = pygame.font.SysFont('microsofttaile', 72)
-            txt = font.render("Snake 1 win", True, (0, 0, 0), (255, 255, 255))
-            screen.fill((255,255,255))
-            screen.blit(txt, (160, 275))
-            pygame.display.update()
-            time.sleep(2) 
-            exit()
+        if lev1 == True:
+            rec1=pygame.draw.rect(screen,(100,100,100), (140,140, 20,20))
+            rec2=pygame.draw.rect(screen,(100,100,100), (540,140, 20,20))
+            rec3=pygame.draw.rect(screen,(100,100,100), (140,540, 20,20))
+            rec4=pygame.draw.rect(screen,(100,100,100), (540,540, 20,20))
+            if rec1.collidepoint(snake1pos) or rec2.collidepoint(snake1pos) or rec3.collidepoint(snake1pos) or rec4.collidepoint(snake1pos):
+                font = pygame.font.SysFont('microsofttaile', 72)
+                txt = font.render("Snake 2 win", True, (0, 0, 0), (255, 255, 255))
+                screen.fill((255,255,255))
+                screen.blit(txt, (160, 275))
+                pygame.display.update()
+                time.sleep(2) 
+                exit()
+
+        if lev2 == True:
+            rect1=pygame.draw.rect(screen,(100,100,100), (240,240, 20,20))
+            rect2=pygame.draw.rect(screen,(100,100,100), (440,240, 20,20))
+            rect3=pygame.draw.rect(screen,(100,100,100), (240,440, 20,20))
+            rect4=pygame.draw.rect(screen,(100,100,100), (440,440, 20,20))
+            if rect1.collidepoint(snake1pos) or rect2.collidepoint(snake1pos) or rect3.collidepoint(snake1pos) or rect4.collidepoint(snake1pos):
+                font = pygame.font.SysFont('microsofttaile', 72)
+                txt = font.render("Snake 2 win", True, (0, 0, 0), (255, 255, 255))
+                screen.fill((255,255,255))
+                screen.blit(txt, (160, 275))
+                pygame.display.update()
+                time.sleep(2) 
+                exit()
 
 class Snake2():
     def __init__(self, x, y):
@@ -132,6 +144,7 @@ class Snake2():
     def death(self):
         x = self.elements[0][0]
         y = self.elements[0][1]
+        snake2pos=(x,y)
         if x < 19 or x > 679 or y < 19 or y > 679:
             font = pygame.font.SysFont('microsofttaile', 72)
             txt = font.render("Snake 1 win", True, (0, 0, 0), (255, 255, 255))
@@ -149,22 +162,33 @@ class Snake2():
                 pygame.display.update()
                 time.sleep(2) 
                 exit()
-        if lev1 == True and ((x, y)==(141,141) or (x, y)==(141,541) or (x, y)==(541,141) or (x, y)==(541,141)):
-            font = pygame.font.SysFont('microsofttaile', 72)
-            txt = font.render("Snake 1 win", True, (0, 0, 0), (255, 255, 255))
-            screen.fill((255,255,255))
-            screen.blit(txt, (160, 275))
-            pygame.display.update()
-            time.sleep(2) 
-            exit()
-        if lev2 == True and ((x, y)==(241,241) or (x, y)==(241,441) or (x, y)==(441,241) or (x, y)==(441,241)):
-            font = pygame.font.SysFont('microsofttaile', 72)
-            txt = font.render("Snake 1 win", True, (0, 0, 0), (255, 255, 255))
-            screen.fill((255,255,255))
-            screen.blit(txt, (160, 275))
-            pygame.display.update()
-            time.sleep(2) 
-            exit()
+        if lev1 == True:
+            rec1=pygame.draw.rect(screen,(100,100,100), (140,140, 20,20))
+            rec2=pygame.draw.rect(screen,(100,100,100), (540,140, 20,20))
+            rec3=pygame.draw.rect(screen,(100,100,100), (140,540, 20,20))
+            rec4=pygame.draw.rect(screen,(100,100,100), (540,540, 20,20))
+            if rec1.collidepoint(snake2pos) or rec2.collidepoint(snake2pos) or rec3.collidepoint(snake2pos) or rec4.collidepoint(snake2pos):
+                font = pygame.font.SysFont('microsofttaile', 72)
+                txt = font.render("Snake 1 win", True, (0, 0, 0), (255, 255, 255))
+                screen.fill((255,255,255))
+                screen.blit(txt, (160, 275))
+                pygame.display.update()
+                time.sleep(2) 
+                exit()
+
+        if lev2 == True:
+            rect1=pygame.draw.rect(screen,(100,100,100), (240,240, 20,20))
+            rect2=pygame.draw.rect(screen,(100,100,100), (440,240, 20,20))
+            rect3=pygame.draw.rect(screen,(100,100,100), (240,440, 20,20))
+            rect4=pygame.draw.rect(screen,(100,100,100), (440,440, 20,20))
+            if rect1.collidepoint(snake2pos) or rect2.collidepoint(snake2pos) or rect3.collidepoint(snake2pos) or rect4.collidepoint(snake2pos):
+                font = pygame.font.SysFont('microsofttaile', 72)
+                txt = font.render("Snake 1 win", True, (0, 0, 0), (255, 255, 255))
+                screen.fill((255,255,255))
+                screen.blit(txt, (160, 275))
+                pygame.display.update()
+                time.sleep(2) 
+                exit()
 def score():
     font = pygame.font.SysFont('microsofttaile', 15)
     a=snake1.size-1
@@ -181,7 +205,7 @@ d=20
 m=10
 h=20
 def MediumWall(cnt):
-    if lev1:
+    if lev1 == True:
         if cnt==0:
             font = pygame.font.SysFont('microsofttaile', 72)
             txt = font.render("Medium mode", True, (0, 0, 0), (255, 255, 255))
@@ -189,14 +213,18 @@ def MediumWall(cnt):
             screen.blit(txt, (160, 275))
             pygame.display.update()
             time.sleep(2)
-            cnt+=1
-        snake1.speed+=2
-        pygame.draw.rect(screen,(100,100,100), (140,140, 20,20))
-        pygame.draw.rect(screen,(100,100,100), (540,140, 20,20))
-        pygame.draw.rect(screen,(100,100,100), (140,540, 20,20))
-        pygame.draw.rect(screen,(100,100,100), (540,540, 20,20))
+            snake1.speed+=2
+            
+        rec1=pygame.draw.rect(screen,(100,100,100), (140,140, 20,20))
+        rec2=pygame.draw.rect(screen,(100,100,100), (540,140, 20,20))
+        rec3=pygame.draw.rect(screen,(100,100,100), (140,540, 20,20))
+        rec4=pygame.draw.rect(screen,(100,100,100), (540,540, 20,20))
+        rec1
+        rec2
+        rec3
+        rec4
 def HardWall(cnt2):
-    if lev2:
+    if lev2 == True:
         if cnt2==0:
             font = pygame.font.SysFont('microsofttaile', 72)
             txt = font.render("Medium mode", True, (0, 0, 0), (255, 255, 255))
@@ -204,13 +232,15 @@ def HardWall(cnt2):
             screen.blit(txt, (160, 275))
             pygame.display.update()
             time.sleep(2)
-            cnt2+=1
-        snake1.speed+=2
-        pygame.draw.rect(screen,(100,100,100), (240,240, 20,20))
-        pygame.draw.rect(screen,(100,100,100), (440,240, 20,20))
-        pygame.draw.rect(screen,(100,100,100), (240,440, 20,20))
-        pygame.draw.rect(screen,(100,100,100), (440,440, 20,20))
-        
+            snake1.speed+=2
+        rect1=pygame.draw.rect(screen,(100,100,100), (240,240, 20,20))
+        rect2=pygame.draw.rect(screen,(100,100,100), (440,240, 20,20))
+        rect3=pygame.draw.rect(screen,(100,100,100), (240,440, 20,20))
+        rect4=pygame.draw.rect(screen,(100,100,100), (440,440, 20,20))
+        rect1
+        rect2
+        rect3
+        rect4
 clock = pygame.time.Clock()
 game = True
 while game:
@@ -266,12 +296,16 @@ while game:
         food.nextPos()
     if lev1==False:
         if (snake1.size+snake2.size) % 12 == 0:
-            lev1==True
+            lev1=True
     if lev2==False:
         if (snake1.size+snake2.size) % 22 == 0:
-            lev2==True
+            lev2=True
     MediumWall(cnt)
     HardWall(cnt2)
+    if lev1:
+        cnt=1
+    if lev2:
+        cnt2=1
     snake1.move()
     snake2.move()
     snake1.draw()
