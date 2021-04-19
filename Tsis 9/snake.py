@@ -210,7 +210,7 @@ def MediumWall(cnt):
             font = pygame.font.SysFont('microsofttaile', 72)
             txt = font.render("Medium mode", True, (0, 0, 0), (255, 255, 255))
             screen.fill((0,0,0))
-            screen.blit(txt, (160, 275))
+            screen.blit(txt, (120, 275))
             pygame.display.update()
             time.sleep(2)
             snake1.speed+=2
@@ -227,12 +227,12 @@ def HardWall(cnt2):
     if lev2 == True:
         if cnt2==0:
             font = pygame.font.SysFont('microsofttaile', 72)
-            txt = font.render("Medium mode", True, (0, 0, 0), (255, 255, 255))
+            txt = font.render("Hard mode", True, (0, 0, 0), (255, 255, 255))
             screen.fill((0,0,0))
             screen.blit(txt, (160, 275))
             pygame.display.update()
             time.sleep(2)
-            snake1.speed+=2
+            snake1.speed+=3
         rect1=pygame.draw.rect(screen,(100,100,100), (240,240, 20,20))
         rect2=pygame.draw.rect(screen,(100,100,100), (440,240, 20,20))
         rect3=pygame.draw.rect(screen,(100,100,100), (240,440, 20,20))
